@@ -1,0 +1,88 @@
+member table
+id : 8글자, 기본키
+name : 한글5글자.
+tel : 13글자
+
+car table
+carnum : 4글자
+id : 8글자, 외래키(참조하는 정보-member릴레이션의 id컬럼)
+
+이렇게 테이블을 논리적설계까지 완료 하였습니다.
+물리적 테이블을 만들기 위한 쿼리문을 조별로 완성해 보세요.
+이때 메모장 등 손코딩으로 합니다.
+
+가능하면 외래키명을 지정한는겂이 좋다.
+
+create table member(
+	id varchar2(8) not null.
+	name varchar2(10) not null,
+	tel varchar2(13) not null,
+	CONSTRAINT member_pk PRIMARY KEY (id)
+);
+
+create table car(
+	carnum varchar2(4)
+	id varchar2(8) not null;
+	constraint fk_ownerid foreign key (id) references member (id)
+);
+
+
+
+2. 쿼리문으로 테스트 하기
+다음 쿼리문이 실행이 가능한지 오류인지 수기로 확인하세요.
+insert into member values ('a','hong','0102222'); 
+insert into member values ('b','lee','0102222');
+insert into member values ('c','park','0103333');
+insert into car values ('6767','a');
+insert into car values ('7777','a');
+insert into car values ('8888','d');
+select * from member;
+select * from car;
+select id, name member where id='a';
+delete from member where id='a';
+delete from member where id='c';
+update from member set id='c' where id='a';
+update from member set id='d' where id='c';
+update from member set name='choi' where id='a';
+
+
+
+
+1. 
+2. ('8888','d') : 참조되는 부모릴레이션이 없다. (외래키 제약조건 위배)
+3. select id, name, member where id = 'a'; ---> from절 없음. 신택스 에러.
+
+
+
+
+4. update from member set id='c' where id = 'c'; ---> 앞에서 id='c'가 식제했기 때문에 업데이트 불가.
+5. update from member set id = 'd' where id = 'c';
+6. update from member set name = 'choi' where id = 'a'; ---> 전에 id 컬럼의 'a'가 삭제되서 컬럼값 변경불가.
+
+참조중 삭제 불가.
+참조하고 있지 아느면 삭제 가능.
+참조중이면 변경도 불가.
+참조하고 있지 아느면 변경가능.
+외래키는 컬럼 to 컬럼이다.
+
+
+
+특징 제약조건
+
+데이터 중복이 있으면 정규화 진행한다.
+
+delete from car;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
